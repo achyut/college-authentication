@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     login.`loginid` AS login_loginid,
+     login.`name` AS login_name,
+     login.`usertype` AS login_usertype,
+     login.`address` AS login_address,
+     login.`phoneno` AS login_phoneno,
+     login.`status` AS login_status,
+     login.`lastlogin` AS login_lastlogin,
+     login.`backupcode` AS login_backupcode
+FROM
+     `login` login
+WHERE 
+     login.`loginid` = $P{id}]]>
+	</queryString>
+	<field name="login_loginid" class="java.lang.String"/>
+	<field name="login_name" class="java.lang.String"/>
+	<field name="login_usertype" class="java.lang.String"/>
+	<field name="login_address" class="java.lang.String"/>
+	<field name="login_phoneno" class="java.lang.String"/>
+	<field name="login_status" class="java.lang.String"/>
+	<field name="login_lastlogin" class="java.lang.String"/>
+	<field name="login_backupcode" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="79" backcolor="#000000"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="37" width="485" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[National Institute of Technology, Kurukshetra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="57" width="485" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[( Institute of National Importance )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="14" width="485" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font fontName="BatmanForeverAlternate" size="18"/>
+				</textElement>
+				<text><![CDATA[centre of computing and networking]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="7" width="555" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25" lineStyle="Double"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[User's Information]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="3" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="275" splitType="Stretch">
+			<textField>
+				<reportElement x="100" y="206" width="265" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login_backupcode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="74" width="94" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="43" width="265" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login_loginid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="206" width="94" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Backup Code:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="11" width="265" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="172" width="265" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login_lastlogin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="106" width="265" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login_phoneno}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="106" width="94" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Phone no: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="172" width="94" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Last login:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="140" width="94" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Address: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="74" width="87" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login_status}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="11" width="94" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="43" width="94" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[User ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="140" width="265" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login_address}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="360" y="22" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="20" width="336" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="College" size="12"/>
+				</textElement>
+				<text><![CDATA[Prepared by: APELY DISTRIBUTED  AUTHENTICATION SYSTEMS]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="540" y="22" width="33" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="22" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="compid" class="java.lang.String"/>
+	<parameter name="from" class="java.lang.String"/>
+	<parameter name="to" class="java.lang.String"/>
+	<parameter name="macaddress" class="java.lang.String"/>
+	<parameter name="labno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select labcur.lablogincurrentid as id,concat(ifnull(g.name,''),ifnull(f.name,''),ifnull(s.name,''))as name,
+labcur.logintime as logintime, 'N/A' as logouttime,
+
+TIMESTAMPDIFF(DAY,labcur.logintime,NOW()) AS day,
+(TIMESTAMPDIFF(HOUR,labcur.logintime,NOW())-TIMESTAMPDIFF(DAY,labcur.logintime,NOW())*24) AS hour,
+(TIMESTAMPDIFF(MINUTE,labcur.logintime,NOW())-TIMESTAMPDIFF(HOUR,labcur.logintime,NOW())*60) AS min,
+(TIMESTAMPDIFF(SECOND,labcur.logintime,NOW())-TIMESTAMPDIFF(MINUTE,labcur.logintime,NOW())*60)
+AS sec
+
+from lablogincurrent as labcur
+left join student as s
+on labcur.lablogincurrentid = s.studentid
+left join guest as g
+on labcur.lablogincurrentid = g.guestid
+left join faculty as f
+on labcur.lablogincurrentid = f.facultyid
+where labcur.computerid = $P{compid} and labcur.logintime >= $P{from}
+
+union
+
+select labmain.labloginmainid as id,concat(ifnull(g.name,''),ifnull(f.name,''),ifnull(s.name,''))as name,
+labmain.logintime as logintime, logouttime as logouttime,
+
+TIMESTAMPDIFF(DAY,labmain.logintime,labmain.logouttime) AS day,
+(TIMESTAMPDIFF(HOUR,labmain.logintime,labmain.logouttime)-TIMESTAMPDIFF(DAY,labmain.logintime,labmain.logouttime)*24) AS hour,
+(TIMESTAMPDIFF(MINUTE,labmain.logintime,labmain.logouttime)-TIMESTAMPDIFF(HOUR,labmain.logintime,labmain.logouttime)*60) AS min,
+(TIMESTAMPDIFF(SECOND,labmain.logintime,labmain.logouttime)-TIMESTAMPDIFF(MINUTE,labmain.logintime,labmain.logouttime)*60)
+AS sec
+from labloginmain as labmain
+left join student as s
+on labmain.labloginmainid = s.studentid
+left join guest as g
+on labmain.labloginmainid = g.guestid
+left join faculty as f
+on labmain.labloginmainid = f.facultyid
+where labmain.computerid =$P{compid} and labmain.logintime >= $P{from} and labmain.logouttime <= $P{to}
+
+order by logintime desc]]>
+	</queryString>
+	<field name="id" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="logintime" class="java.lang.String"/>
+	<field name="logouttime" class="java.lang.String"/>
+	<field name="day" class="java.lang.Long"/>
+	<field name="hour" class="java.lang.Long"/>
+	<field name="min" class="java.lang.Long"/>
+	<field name="sec" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="79" backcolor="#000000"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="13" width="469" height="20" forecolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="BatmanForeverAlternate" size="18"/>
+				</textElement>
+				<text><![CDATA[centre of computing and networking]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="36" width="469" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[National Institute of Technology, Kurukshetra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="56" width="473" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[( Institute of National Importance )]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="96" splitType="Stretch">
+			<staticText>
+				<reportElement x="167" y="7" width="258" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25" lineStyle="Double"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Computer Usage Detail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="43" width="83" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Computer ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="43" width="101" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{compid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="191" y="43" width="51" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[From:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="242" y="43" width="131" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{from}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="43" width="45" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[To:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="425" y="43" width="130" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{to}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="76" width="83" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Mac Address]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="76" width="131" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{macaddress}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="76" width="45" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Lab No]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="427" y="76" width="130" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{labno}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="16" width="31" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[S.no]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="16" width="54" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="16" width="103" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Login Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="16" width="99" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Login Out Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="16" width="118" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Duration]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="16" width="88" height="20"/>
+				<box>
+					<bottomPen lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="3" width="31" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="3" width="54" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="3" width="103" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{logintime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="324" y="3" width="103" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{logouttime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="3" width="117" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{day}+" Day,"+$F{hour}+" Hrs,"+$F{min}+" Min,"+$F{sec} +" Sec"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="3" width="87" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="22" width="336" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="College" size="12"/>
+				</textElement>
+				<text><![CDATA[Prepared by: APELY DISTRIBUTED  AUTHENTICATION SYSTEMS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="22" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="340" y="22" width="111" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
